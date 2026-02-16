@@ -5,17 +5,42 @@ import { scenarios, Scenario } from "../data/scenarios";
 
 type EnergyLevel = Scenario["energy"];
 type Mode = "setup" | "story";
-
-/* =========================
-   MAIN COMPONENT
-========================= */
+type Language = "en" | "tr";
 
 export default function Home() {
   const [mode, setMode] = useState<Mode>("setup");
   const [energy, setEnergy] = useState<EnergyLevel>("active");
+  const [language, setLanguage] = useState<Language>("en");
   const [currentScenario, setCurrentScenario] =
     useState<Scenario | null>(null);
   const [animate, setAnimate] = useState(false);
+
+  const t = {
+    en: {
+      energyTitle: "How's your energy tonight?",
+      energyDesc: "Choose the vibe and we’ll create an adventure.",
+      active: "🌟 Active",
+      cozy: "🌙 Cozy",
+      create: "Create an adventure ✨",
+      another: "Give me another adventure",
+      switchEnergy: "Switch energy mode",
+      back: "Back",
+      you: "You're",
+      iAm: "I'm",
+    },
+    tr: {
+      energyTitle: "Bu akşam enerjin nasıl?",
+      energyDesc: "Enerjini seç, birlikte bir macera başlatalım.",
+      active: "🌟 Aktif",
+      cozy: "🌙 Sakin",
+      create: "Bir macera oluştur ✨",
+      another: "Başka bir macera ver",
+      switchEnergy: "Enerjiyi değiştir",
+      back: "Başa dön",
+      you: "Sen",
+      iAm: "Ben",
+    },
+  };
 
   const generateScenario = () => {
     const matching = scenarios.filter(
@@ -45,9 +70,6 @@ export default function Home() {
       const random =
         matching[Math.floor(Math.random() * matching.length)];
       setCurrentScenario(random);
-
-      setAnimate(false);
-      requestAnimationFrame(() => setAnimate(true));
     }
   };
 
@@ -63,35 +85,53 @@ export default function Home() {
         }
       `}
     >
-      <div className="w-full max-w-[440px]">
+      <div className="w-full max-w-[440px] relative">
 
         {/* SETUP MODE */}
         {mode === "setup" && (
-          <div
-            className={`
-              bg-white rounded-[32px] px-8 py-10
-              shadow-[0_20px_60px_rgba(0,0,0,0.08)]
-              transition-all duration-500
-              ${animate ? "opacity-100 translate-y-0" : ""}
-            `}
-          >
+          <div className="bg-white rounded-[32px] px-8 py-10 shadow-[0_20px_60px_rgba(0,0,0,0.08)] relative">
+
+            {/* Language Toggle */}
+            <div className="absolute top-4 right-4 text-sm flex gap-2">
+              <button
+                onClick={() => setLanguage("en")}
+                className={`px-2 py-1 rounded ${
+                  language === "en"
+                    ? "bg-slate-800 text-white"
+                    : "text-slate-600"
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLanguage("tr")}
+                className={`px-2 py-1 rounded ${
+                  language === "tr"
+                    ? "bg-slate-800 text-white"
+                    : "text-slate-600"
+                }`}
+              >
+                TR
+              </button>
+            </div>
+
             <h1 className="text-3xl font-semibold text-center mb-6">
-              How's your energy tonight?
+              {t[language].energyTitle}
             </h1>
 
             <p className="text-center text-slate-600 mb-8 text-base leading-relaxed">
-              Choose the vibe and we’ll create an adventure.
+              {t[language].energyDesc}
             </p>
 
             <div className="flex gap-4 mb-10">
               <EnergyButton
-                label="🌟 Active"
+                label={t[language].active}
                 selected={energy === "active"}
                 onClick={() => setEnergy("active")}
                 activeColor="from-[#4a92c8] to-[#2c5f7f]"
               />
               <EnergyButton
-                label="🌙 Cozy"
+                label={t[language].cozy}
                 selected={energy === "low"}
                 onClick={() => setEnergy("low")}
                 activeColor="from-[#e08b8b] to-[#c75d5d]"
@@ -103,7 +143,6 @@ export default function Home() {
               className={`
                 w-full py-4 px-6 rounded-2xl
                 text-white font-semibold text-lg
-                transition-all duration-300
                 ${
                   energy === "active"
                     ? "bg-gradient-to-r from-[#4a92c8] to-[#2c5f7f]"
@@ -111,7 +150,7 @@ export default function Home() {
                 }
               `}
             >
-              Create an adventure ✨
+              {t[language].create}
             </button>
           </div>
         )}
@@ -119,14 +158,16 @@ export default function Home() {
         {/* STORY MODE */}
         {mode === "story" && currentScenario && (
           <div className="space-y-4">
-            <div
-              className={`
-                bg-white rounded-[32px] px-8 py-10
-                shadow-[0_20px_60px_rgba(0,0,0,0.08)]
-                transition-all duration-500
-                ${animate ? "opacity-100 translate-y-0" : ""}
-              `}
-            >
+            <div className="bg-white rounded-[32px] px-8 py-10 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+
+              {/* Back Button */}
+              <button
+                onClick={() => setMode("setup")}
+                className="text-sm text-slate-500 mb-4"
+              >
+                ← {t[language].back}
+              </button>
+
               <h1
                 className="text-4xl font-semibold text-center mb-6"
                 style={{
@@ -134,10 +175,9 @@ export default function Home() {
                     energy === "active" ? "#2c5f7f" : "#8b4a4a",
                 }}
               >
-                {currentScenario.theme}
+                {currentScenario.theme[language]}
               </h1>
 
-              {/* Roles */}
               <div
                 className={`
                   rounded-[20px] px-6 py-5 mb-6 border
@@ -149,43 +189,43 @@ export default function Home() {
                 `}
               >
                 <p className="text-[16px] text-slate-700 mb-2">
-                  <span className="font-semibold">You're</span>{" "}
-                  {currentScenario.toddlerRole}
+                  <span className="font-semibold">
+                    {t[language].you}
+                  </span>{" "}
+                  {currentScenario.toddlerRole[language]}
                 </p>
                 <p className="text-[16px] text-slate-700">
-                  <span className="font-semibold">I'm</span>{" "}
-                  {currentScenario.parentRole}
+                  <span className="font-semibold">
+                    {t[language].iAm}
+                  </span>{" "}
+                  {currentScenario.parentRole[language]}
                 </p>
               </div>
 
-              {/* Mission */}
               <p className="text-[18px] leading-relaxed text-center mb-8 text-slate-700 italic">
-                {currentScenario.mission}
+                {currentScenario.mission[language]}
               </p>
 
-              {/* Story Beats */}
               <div className="space-y-3 mb-6">
                 <StoryBeat
-                  label={currentScenario.starterLabel}
-                  content={currentScenario.starterLine}
+                  label={currentScenario.starterLabel[language]}
+                  content={currentScenario.starterLine[language]}
                 />
                 <StoryBeat
-                  label={currentScenario.twistLabel}
-                  content={currentScenario.twistLine}
+                  label={currentScenario.twistLabel[language]}
+                  content={currentScenario.twistLine[language]}
                 />
                 <StoryBeat
-                  label={currentScenario.endingLabel}
-                  content={currentScenario.endingLine}
+                  label={currentScenario.endingLabel[language]}
+                  content={currentScenario.endingLine[language]}
                 />
               </div>
 
-              {/* CTA */}
               <button
                 onClick={generateScenario}
                 className={`
                   w-full py-4 px-6 rounded-2xl
                   text-white font-semibold text-base
-                  transition-all duration-300
                   ${
                     energy === "active"
                       ? "bg-gradient-to-r from-[#4a92c8] to-[#2c5f7f]"
@@ -193,15 +233,14 @@ export default function Home() {
                   }
                 `}
               >
-                Give me another adventure
+                {t[language].another}
               </button>
 
-              {/* Energy Toggle */}
               <button
                 onClick={toggleEnergy}
                 className="w-full mt-4 py-3 px-4 rounded-xl bg-white/70 text-sm text-slate-600"
               >
-                Switch energy mode
+                {t[language].switchEnergy}
               </button>
             </div>
           </div>
@@ -211,9 +250,7 @@ export default function Home() {
   );
 }
 
-/* =========================
-   COMPONENTS
-========================= */
+/* COMPONENTS */
 
 function EnergyButton({
   label,
@@ -231,7 +268,6 @@ function EnergyButton({
       onClick={onClick}
       className={`
         flex-1 py-4 px-4 rounded-2xl
-        transition-all duration-300
         ${
           selected
             ? `bg-gradient-to-br ${activeColor} text-white`

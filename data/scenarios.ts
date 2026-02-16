@@ -1,211 +1,266 @@
 // scenarios.ts - Updated data structure for redesigned play prompt app
+export type LocalizedText = {
+  en: string;
+  tr: string;
+};
 
 export type Scenario = {
-  theme: string;
-  toddlerRole: string;
-  parentRole: string;
-  mission: string;
-  starterLabel: string;
-  starterLine: string;
-  twistLabel: string;
-  twistLine: string;
-  endingLabel: string;
-  endingLine: string;
+  theme: LocalizedText;
+  toddlerRole: LocalizedText;
+  parentRole: LocalizedText;
+  mission: LocalizedText;
+  starterLabel: LocalizedText;
+  starterLine: LocalizedText;
+  twistLabel: LocalizedText;
+  twistLine: LocalizedText;
+  endingLabel: LocalizedText;
+  endingLine: LocalizedText;
   energy: "active" | "low" | "mixed";
-  icon?: string; // Optional, for backwards compatibility
-  props?: string[]; // Optional, for backwards compatibility
 };
+
 
 export const scenarios: Scenario[] = [
   // ============================================
   // ACTIVE ENERGY SCENARIOS
   // ============================================
   {
-    theme: "Airport Adventure",
-    toddlerRole: "flying the plane today",
-    parentRole: "your very important passenger!",
-    mission: "Help me fly safely to a brand new country",
-    starterLabel: "Getting Ready",
-    starterLine: "Check all the buttons and switches on the plane. Is everything working? Don't forget to give the passengers their safety instructions!",
-    twistLabel: "Surprise in the Sky",
-    twistLine: "Oh no! The weather is getting bumpy. Should we fly through the clouds or around them? Ask your passenger what they think!",
-    endingLabel: "Safe Landing",
-    endingLine: "We made it! Everyone claps for the amazing pilot. What country did we land in? What should we explore first?",
+    theme: {
+      en: "Airport Adventure",
+      tr: "Havaalani Macerasi",
+    },
+    toddlerRole: {
+      en: "flying the plane today",
+      tr: "bugün uçağı uçuruyorsun",
+    },
+    parentRole: {
+      en: "your very important passenger!",
+      tr: "senin çok önemli yolcunum!",
+    },
+    mission: {
+      en: "Help me fly safely to a brand new country",
+      tr: "Beni bu ülkeye güvenle uçur",
+    },
+    starterLabel: {
+      en: "Getting Ready",
+      tr: "Hazırlık Zamanı",
+    },
+    starterLine: {
+      en: "Check all the buttons and switches on the plane. Is everything working?",
+      tr: "Uçaktaki tüm düğmeleri ve kolları kontrol et. Hepsi çalışıyor mu?",
+    },
+    twistLabel: {
+      en: "Surprise in the Sky",
+      tr: "Gökyüzünde Sürpriz",
+    },
+    twistLine: {
+      en: "Oh no! The weather is getting bumpy. Should we fly through the clouds or around them?",
+      tr: "Eyvah! Ucak biraz sallaniyor. Bulutların içinden mi uçalım yoksa etrafından mı?",
+    },
+    endingLabel: {
+      en: "Safe Landing",
+      tr: "Güvenli İniş",
+    },
+    endingLine: {
+      en: "We made it! Everyone claps for the amazing pilot.",
+      tr: "Başardık! Herkes harika pilota alkış tutuyor.",
+    },
     energy: "active",
-    icon: "plane",
-    props: ["chair", "backpack", "box"]
   },
   {
-    theme: "Rescue Mission",
-    toddlerRole: "the brave firefighter",
-    parentRole: "the person who needs rescuing!",
-    mission: "Save me from the tall building before it's too late",
-    starterLabel: "Sound the Alarm",
-    starterLine: "Quick! Jump in the fire truck and turn on the sirens. Ring the bell and zoom through the streets. What do you see on the way?",
-    twistLabel: "Up the Ladder",
-    twistLine: "The ladder goes higher and higher! It's a little wobbly. Hold on tight and climb carefully. Can you see me waving from the window?",
-    endingLabel: "Heroes Return",
-    endingLine: "You saved me! Everyone cheers. The mayor wants to give you a medal. What should we do to celebrate?",
+    theme: { en: "Rescue Mission", tr: "Kurtarma Görevi" },
+    toddlerRole: { en: "the brave firefighter", tr: "cesur itfaiyeci" },
+    parentRole: { en: "the person who needs rescuing!", tr: "kurtarılmayı bekleyen kişi!" },
+    mission: { en: "Save me from the tall building before it's too late", tr: "Çok geç olmadan beni yüksek binadan kurtar" },
+    starterLabel: { en: "Sound the Alarm", tr: "Alarmı Çal" },
+    starterLine: { en: "Quick! Jump in the fire truck and turn on the sirens.", tr: "Çabuk! İtfaiye aracına atla ve sirenleri aç." },
+    twistLabel: { en: "Up the Ladder", tr: "Merdiven Zamanı" },
+    twistLine: { en: "The ladder goes higher and higher! It's a little wobbly.", tr: "Merdiven gittikçe yükseliyor! Biraz sallanıyor." },
+    endingLabel: { en: "Heroes Return", tr: "Kahramanın Dönüşü" },
+    endingLine: { en: "You saved me! Everyone cheers.", tr: "Beni kurtardın! Herkes seni alkışlıyor." },
     energy: "active",
-    icon: "bolt",
-    props: ["towel", "toy car", "ladder or chairs"]
   },
   {
-    theme: "Jungle Explorer",
-    toddlerRole: "the expedition leader",
-    parentRole: "the wildlife photographer!",
-    mission: "Find the hidden treasure deep in the jungle",
-    starterLabel: "Into the Wild",
-    starterLine: "Pack your backpack with everything we need. What should we bring? Now let's carefully push through the vines and leaves!",
-    twistLabel: "Wild Animals",
-    twistLine: "Shh! Do you hear that? A tiger is sleeping nearby. Should we tiptoe past it or climb a tree to go around?",
-    endingLabel: "Treasure Found",
-    endingLine: "Look! The treasure chest! Open it up—what's inside? Should we share it with the jungle animals or bring it home?",
+    theme: { en: "Jungle Explorer", tr: "Orman Kaşifi" },
+    toddlerRole: { en: "the expedition leader", tr: "keşif lideri" },
+    parentRole: { en: "the wildlife photographer!", tr: "vahşi yaşam fotoğrafçısı!" },
+    mission: { en: "Find the hidden treasure deep in the jungle", tr: "Ormanın derinliklerindeki gizli hazineyi bul" },
+    starterLabel: { en: "Into the Wild", tr: "Vahşi Doğaya" },
+    starterLine: { en: "Pack your backpack with everything we need.", tr: "Gereken her şeyi sırt çantana koy." },
+    twistLabel: { en: "Wild Animals", tr: "Vahşi Hayvanlar" },
+    twistLine: { en: "Shh! A tiger is sleeping nearby.", tr: "Şşş! Yakında bir kaplan uyuyor." },
+    endingLabel: { en: "Treasure Found", tr: "Hazine Bulundu" },
+    endingLine: { en: "Look! The treasure chest!", tr: "Bak! Hazine sandığı!" },
     energy: "active",
-    icon: "leaf",
-    props: ["backpack", "stuffed animals", "blanket"]
   },
   {
-    theme: "Race Car Championship",
-    toddlerRole: "the star race car driver",
-    parentRole: "your pit crew chief!",
-    mission: "Win the big race and become the champion",
-    starterLabel: "Ready, Set...",
-    starterLine: "Put on your helmet and buckle up! Rev the engine—vroom vroom! The crowd is cheering. Can you hear them?",
-    twistLabel: "Tire Trouble",
-    twistLine: "Uh oh! One of your tires is getting flat. Quick, pull into the pit stop! How fast can we change it together?",
-    endingLabel: "Victory Lap",
-    endingLine: "You're in first place! Cross the finish line and do a victory lap. They're giving you a big trophy—how does it feel to win?",
+    theme: { en: "Race Car Championship", tr: "Yarış Arabası Şampiyonası" },
+    toddlerRole: { en: "the star race car driver", tr: "yıldız yarış pilotu" },
+    parentRole: { en: "your pit crew chief!", tr: "pit ekibi şefi!" },
+    mission: { en: "Win the big race and become the champion", tr: "Büyük yarışı kazan ve şampiyon ol" },
+    starterLabel: { en: "Ready, Set...", tr: "Hazır, Başla..." },
+    starterLine: { en: "Put on your helmet and buckle up!", tr: "Kaskını tak ve kemerini bağla!" },
+    twistLabel: { en: "Tire Trouble", tr: "Lastik Sorunu" },
+    twistLine: { en: "Uh oh! One tire is getting flat.", tr: "Eyvah! Bir lastik iniyor." },
+    endingLabel: { en: "Victory Lap", tr: "Zafer Turu" },
+    endingLine: { en: "You're in first place!", tr: "Birinci oldun!" },
     energy: "active",
-    icon: "bolt",
-    props: ["toy car", "cushions", "cups or blocks"]
   },
 
   // ============================================
   // LOW/COZY ENERGY SCENARIOS
   // ============================================
   {
-    theme: "Cozy Bakery",
-    toddlerRole: "the gentle baker",
-    parentRole: "your hungry customer!",
-    mission: "Make me the most delicious treat you can imagine",
-    starterLabel: "Morning Prep",
-    starterLine: "The bakery smells so good already! What should we bake first? Mix the ingredients slowly and carefully in your big bowl.",
-    twistLabel: "Special Request",
-    twistLine: "A very special customer just walked in—it's a tiny mouse! They want something extra sweet. What should you make for them?",
-    endingLabel: "Sharing Time",
-    endingLine: "Everything looks beautiful! Let's sit down together and taste what we made. Which one is your favorite?",
+    theme: { en: "Cozy Bakery", tr: "Sıcacık Fırın" },
+    toddlerRole: { en: "the gentle baker", tr: "nazik fırıncı" },
+    parentRole: { en: "your hungry customer!", tr: "aç müşterin!" },
+    mission: { en: "Make me the most delicious treat you can imagine", tr: "Hayal edebileceğin en lezzetli şeyi yap" },
+    starterLabel: { en: "Morning Prep", tr: "Sabah Hazırlığı" },
+    starterLine: { en: "The bakery smells amazing!", tr: "Fırın mis gibi kokuyor!" },
+    twistLabel: { en: "Special Request", tr: "Özel İstek" },
+    twistLine: { en: "A tiny mouse wants something sweet.", tr: "Minik bir fare tatlı bir şey istiyor." },
+    endingLabel: { en: "Sharing Time", tr: "Paylaşma Zamanı" },
+    endingLine: { en: "Let's taste what we made.", tr: "Yaptıklarımızı tadına bakalım." },
     energy: "low",
-    icon: "bread",
-    props: ["bowls", "spoons", "play food or blocks"]
   },
   {
-    theme: "Bedtime Story Library",
-    toddlerRole: "the wise librarian",
-    parentRole: "looking for the perfect book!",
-    mission: "Help me find a magical story to read before bed",
-    starterLabel: "Welcome In",
-    starterLine: "Hello! The library is quiet and cozy. Walk me through the different sections. What kinds of stories do you have?",
-    twistLabel: "A Hidden Book",
-    twistLine: "Wait—there's a book glowing softly on the top shelf! How can we reach it? Should we use a ladder or ask the tall giraffe for help?",
-    endingLabel: "Story Time",
-    endingLine: "Perfect! Let's sit in the comfy reading corner. You can hold the book while I listen. What happens on the first page?",
+    theme: { en: "Bedtime Story Library", tr: "Uyku Masalı Kütüphanesi" },
+    toddlerRole: { en: "the wise librarian", tr: "bilge kütüphaneci" },
+    parentRole: { en: "looking for the perfect book!", tr: "mükemmel kitabı arayan kişi!" },
+    mission: { en: "Help me find a magical story to read before bed", tr: "Yatmadan önce sihirli bir hikaye bulmama yardım et" },
+    starterLabel: { en: "Welcome In", tr: "Hoş Geldin" },
+    starterLine: { en: "The library is quiet and cozy.", tr: "Kütüphane sessiz ve huzurlu." },
+    twistLabel: { en: "A Hidden Book", tr: "Gizli Kitap" },
+    twistLine: { en: "A glowing book is on the top shelf.", tr: "Üst rafta parlayan bir kitap var." },
+    endingLabel: { en: "Story Time", tr: "Hikaye Zamanı" },
+    endingLine: { en: "Let's sit and read together.", tr: "Birlikte oturup okuyalım." },
     energy: "low",
-    icon: "compass",
-    props: ["books", "blanket", "pillows"]
   },
   {
-    theme: "Garden Tea Party",
-    toddlerRole: "the kind garden fairy",
-    parentRole: "your guest from far away!",
-    mission: "Show me the most beautiful parts of your magical garden",
-    starterLabel: "Garden Tour",
-    starterLine: "Welcome to my garden! Look at all the colorful flowers. Which one smells the best? Let's pick some for our tea table.",
-    twistLabel: "Tiny Visitor",
-    twistLine: "Oh! A butterfly landed on your hand. It seems lost. Should we help it find its family? Where do you think they might be?",
-    endingLabel: "Tea and Talk",
-    endingLine: "Let's sit down for tea now. Pour carefully! Tell me a story about your garden—who else lives here?",
+    theme: { en: "Garden Tea Party", tr: "Bahçe Çay Partisi" },
+    toddlerRole: { en: "the kind garden fairy", tr: "nazik bahçe perisi" },
+    parentRole: { en: "your guest from far away!", tr: "uzaktan gelen misafirin!" },
+    mission: { en: "Show me the most beautiful parts of your magical garden", tr: "Sihirli bahçenin en güzel yerlerini göster" },
+    starterLabel: { en: "Garden Tour", tr: "Bahçe Turu" },
+    starterLine: { en: "Welcome to my garden!", tr: "Bahçeme hoş geldin!" },
+    twistLabel: { en: "Tiny Visitor", tr: "Minik Ziyaretçi" },
+    twistLine: { en: "A butterfly landed on your hand.", tr: "Bir kelebek eline kondu." },
+    endingLabel: { en: "Tea and Talk", tr: "Çay ve Sohbet" },
+    endingLine: { en: "Let's sit for tea.", tr: "Çay içmek için oturalım." },
     energy: "low",
-    icon: "leaf",
-    props: ["cups", "stuffed animals", "flowers or leaves"]
   },
   {
-    theme: "Veterinary Clinic",
-    toddlerRole: "the gentle animal doctor",
-    parentRole: "bringing in my sick teddy bear!",
-    mission: "Help my teddy feel better—I think they have a cold",
-    starterLabel: "Check-Up Time",
-    starterLine: "Hello, doctor! My teddy doesn't feel well. Can you check their temperature and heartbeat? What do you notice?",
-    twistLabel: "Special Medicine",
-    twistLine: "The teddy needs special medicine to feel better. What should we give them? Maybe some warm milk and a cozy bandage?",
-    endingLabel: "All Better",
-    endingLine: "Look! The teddy is smiling now. What should they do at home to stay healthy? Should they rest or play gently?",
+    theme: { en: "Veterinary Clinic", tr: "Veteriner Kliniği" },
+    toddlerRole: { en: "the gentle animal doctor", tr: "nazik hayvan doktoru" },
+    parentRole: { en: "bringing in my sick teddy bear!", tr: "hasta oyuncak ayımı getiren kişi!" },
+    mission: { en: "Help my teddy feel better", tr: "Oyuncak ayımı iyileştir" },
+    starterLabel: { en: "Check-Up Time", tr: "Muayene Zamanı" },
+    starterLine: { en: "Check the teddy's temperature.", tr: "Ayıcığın ateşini ölç." },
+    twistLabel: { en: "Special Medicine", tr: "Özel İlaç" },
+    twistLine: { en: "What medicine should we give?", tr: "Hangi ilacı verelim?" },
+    endingLabel: { en: "All Better", tr: "Artık İyi" },
+    endingLine: { en: "The teddy is smiling again.", tr: "Ayıcık yine gülümsüyor." },
     energy: "low",
-    icon: "bone",
-    props: ["stuffed animals", "blanket", "toy medical kit or spoons"]
   },
 
-  // ============================================
-  // MIXED ENERGY SCENARIOS
-  // ============================================
+
   {
-    theme: "Space Station",
-    toddlerRole: "the astronaut commander",
-    parentRole: "your robot helper!",
-    mission: "Fix the broken satellite floating outside our space station",
-    starterLabel: "Suit Up",
-    starterLine: "Put on your space suit and helmet. Check that everything is sealed tight! Now let's float through the airlock together.",
-    twistLabel: "Meteor Shower",
-    twistLine: "Look! Tiny rocks are flying past us. We need to dodge them carefully. Can you show me your best slow-motion space moves?",
-    endingLabel: "Mission Complete",
-    endingLine: "We fixed it! Float back inside for some space ice cream. What flavor do you think astronauts eat? What planet should we visit next?",
-    energy: "mixed",
-    icon: "compass",
-    props: ["box", "flashlight", "aluminum foil"]
+    theme: { en: "Space Station", tr: "Uzay İstasyonu" },
+    toddlerRole: { en: "the astronaut commander", tr: "astronot komutan" },
+    parentRole: { en: "your robot helper!", tr: "robot yardımcın!" },
+    mission: {
+      en: "Fix the broken satellite floating outside our space station",
+      tr: "Uzay istasyonunun dışında süzülen bozuk uyduyu tamir et",
+    },
+    starterLabel: { en: "Suit Up", tr: "Hazırlan" },
+    starterLine: {
+      en: "Put on your space suit and helmet. Check everything carefully before going outside.",
+      tr: "Uzay kıyafetini ve kaskını tak. Dışarı çıkmadan önce her şeyi dikkatlice kontrol et.",
+    },
+    twistLabel: { en: "Meteor Shower", tr: "Meteor Yağmuru" },
+    twistLine: {
+      en: "Tiny rocks are flying past us! Move slowly and carefully.",
+      tr: "Minik meteorlar yanımızdan geçiyor! Yavaş ve dikkatli hareket et.",
+    },
+    endingLabel: { en: "Mission Complete", tr: "Görev Tamamlandı" },
+    endingLine: {
+      en: "We fixed it! Let’s float back inside and celebrate.",
+      tr: "Tamir ettik! İçeri girip kutlama yapalım.",
+    },
+    energy: "active",
   },
   {
-    theme: "Mountain Climbing",
-    toddlerRole: "the experienced mountain guide",
-    parentRole: "learning to climb for the first time!",
-    mission: "Lead me safely to the top of the snowy mountain",
-    starterLabel: "Base Camp",
-    starterLine: "We're starting at the bottom. It's a long way up! What should we pack in our bags? Show me how to tie the climbing rope.",
-    twistLabel: "Slippery Ice",
-    twistLine: "Careful! This part is icy. Should we crawl slowly or use our ice picks? Hold my hand and guide me across.",
-    endingLabel: "Summit Success",
-    endingLine: "We made it to the top! Look at the view—what can you see from up here? Should we plant a flag or take a photo?",
-    energy: "mixed",
-    icon: "mountain",
-    props: ["rope or string", "backpack", "stuffed animals"]
+    theme: { en: "Mountain Climbing", tr: "Dağ Tırmanışı" },
+    toddlerRole: { en: "the mountain guide", tr: "dağ rehberi" },
+    parentRole: { en: "learning to climb for the first time!", tr: "ilk kez tırmanmayı öğrenen kişi!" },
+    mission: {
+      en: "Lead me safely to the top of the snowy mountain",
+      tr: "Beni güvenle karlı dağın zirvesine çıkar",
+    },
+    starterLabel: { en: "Base Camp", tr: "Ana Kamp" },
+    starterLine: {
+      en: "We’re starting at the bottom. Show me how to prepare our gear.",
+      tr: "En aşağıdan başlıyoruz. Ekipmanlarımızı nasıl hazırlayacağımızı göster.",
+    },
+    twistLabel: { en: "Slippery Ice", tr: "Kaygan Buz" },
+    twistLine: {
+      en: "Careful! The ground is icy. Move slowly and hold my hand.",
+      tr: "Dikkat! Yer buzlu. Yavaş hareket et ve elimi tut.",
+    },
+    endingLabel: { en: "Summit Success", tr: "Zirve Başarısı" },
+    endingLine: {
+      en: "We made it to the top! Look at the amazing view.",
+      tr: "Zirveye ulaştık! Manzaraya bak ne kadar güzel.",
+    },
+    energy: "active",
   },
   {
-    theme: "Submarine Adventure",
-    toddlerRole: "the submarine captain",
-    parentRole: "your crew member!",
-    mission: "Dive deep to discover what lives at the bottom of the ocean",
-    starterLabel: "Going Down",
-    starterLine: "Close the hatch! Turn the wheel to make us dive deeper and deeper. What fish can you see through the window?",
-    twistLabel: "Friendly Whale",
-    twistLine: "A huge whale is swimming right next to us! Should we follow it or stay still? It seems like it wants to show us something.",
-    endingLabel: "Treasure Discovery",
-    endingLine: "Look what the whale showed us—a sunken ship with treasure! Should we explore inside or swim back to the surface to tell everyone?",
-    energy: "mixed",
-    icon: "compass",
-    props: ["box or laundry basket", "blue blanket", "toy fish"]
+    theme: { en: "Submarine Adventure", tr: "Denizaltı Macerası" },
+    toddlerRole: { en: "the submarine captain", tr: "denizaltı kaptanı" },
+    parentRole: { en: "your crew member!", tr: "mürettebat üyesi!" },
+    mission: {
+      en: "Dive deep to discover what lives at the bottom of the ocean",
+      tr: "Okyanusun dibinde neler yaşadığını keşfetmek için derine dal",
+    },
+    starterLabel: { en: "Going Down", tr: "Dalış Başlıyor" },
+    starterLine: {
+      en: "Close the hatch and turn the wheel. We’re diving deeper!",
+      tr: "Kapağı kapat ve dümeni çevir. Daha derine dalıyoruz!",
+    },
+    twistLabel: { en: "Friendly Whale", tr: "Dost Balina" },
+    twistLine: {
+      en: "A huge whale is swimming beside us. Should we follow it?",
+      tr: "Dev bir balina yanımızda yüzüyor. Onu takip edelim mi?",
+    },
+    endingLabel: { en: "Treasure Discovery", tr: "Hazine Keşfi" },
+    endingLine: {
+      en: "We found a sunken treasure! What should we do next?",
+      tr: "Batık bir hazine bulduk! Şimdi ne yapalım?",
+    },
+    energy: "active",
   },
   {
-    theme: "Pizza Restaurant",
-    toddlerRole: "the head chef",
-    parentRole: "your first customer!",
-    mission: "Make me the most creative pizza you can think of",
-    starterLabel: "Opening Time",
-    starterLine: "Roll out the dough nice and round. Should we throw it in the air like real pizza chefs? What shape should we make it?",
-    twistLabel: "Unusual Order",
-    twistLine: "The customer wants something really weird on their pizza—like bananas and pickles! Should we make it exactly how they want, or suggest something else?",
-    endingLabel: "Tasting Time",
-    endingLine: "It's ready! Let's cut it into slices. Take a pretend bite—how does it taste? Should we open the restaurant again tomorrow?",
-    energy: "mixed",
-    icon: "bread",
-    props: ["play dough or paper", "bowls", "toy food"]
-  }
+    theme: { en: "Pizza Restaurant", tr: "Pizza Restoranı" },
+    toddlerRole: { en: "the head chef", tr: "baş aşçı" },
+    parentRole: { en: "your first customer!", tr: "ilk müşterin!" },
+    mission: {
+      en: "Make me the most creative pizza you can imagine",
+      tr: "Hayal edebileceğin en yaratıcı pizzayı yap",
+    },
+    starterLabel: { en: "Opening Time", tr: "Açılış Zamanı" },
+    starterLine: {
+      en: "Roll out the dough carefully. What shape should we make?",
+      tr: "Hamuru dikkatlice aç. Hangi şekli yapalım?",
+    },
+    twistLabel: { en: "Unusual Order", tr: "Garip Sipariş" },
+    twistLine: {
+      en: "The customer wants something unusual on their pizza!",
+      tr: "Müşteri pizzasında alışılmadık bir şey istiyor!",
+    },
+    endingLabel: { en: "Tasting Time", tr: "Tadım Zamanı" },
+    endingLine: {
+      en: "Let’s cut it into slices and taste it together.",
+      tr: "Dilimleyip birlikte tadına bakalım.",
+    },
+    energy: "low",
+  },
 ];
