@@ -2,298 +2,406 @@
 
 import { useState } from "react";
 import { scenarios, Scenario } from "../data/scenarios";
+import { useLanguage } from "../hooks/useLanguage";
+import { useFavorites } from "../hooks/useFavorites";
+import SelectionCard from "../components/SelectionCard";
 
-type EnergyLevel = Scenario["energy"];
-type Mode = "setup" | "story";
-type Language = "en" | "tr";
+type Mode = "setup" | "select" | "story" | "favorites";
+type Energy = "active" | "low";
 
 export default function Home() {
   const [mode, setMode] = useState<Mode>("setup");
-  const [energy, setEnergy] = useState<EnergyLevel>("active");
-  const [language, setLanguage] = useState<Language>("en");
-  const [currentScenario, setCurrentScenario] =
-    useState<Scenario | null>(null);
-  const [animate, setAnimate] = useState(false);
+  const [energy, setEnergy] = useState<Energy>("active");
+  const [options, setOptions] = useState<Scenario[]>([]);
+  const [current, setCurrent] = useState<Scenario | null>(null);
+  const [storyStep, setStoryStep] = useState(0);
 
-  const t = {
-    en: {
-      energyTitle: "How's your energy tonight?",
-      energyDesc: "Choose the vibe and we’ll create an adventure.",
-      active: "🌟 Active",
-      cozy: "🌙 Cozy",
-      create: "Create an adventure ✨",
-      another: "Give me another adventure",
-      switchEnergy: "Switch energy mode",
-      back: "Back",
-      you: "You're",
-      iAm: "I'm",
-    },
-    tr: {
-      energyTitle: "Bu akşam enerjin nasıl?",
-      energyDesc: "Enerjini seç, birlikte bir macera başlatalım.",
-      active: "🌟 Aktif",
-      cozy: "🌙 Sakin",
-      create: "Bir macera oluştur ✨",
-      another: "Başka bir macera ver",
-      switchEnergy: "Enerjiyi değiştir",
-      back: "Başa dön",
-      you: "Sen",
-      iAm: "Ben",
-    },
-  };
+  const { lang, setLang, t, hydrated } = useLanguage();
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
 
-  const generateScenario = () => {
-    const matching = scenarios.filter(
-      (s) => s.energy === energy || s.energy === "mixed"
-    );
-    if (!matching.length) return;
+  /* ================= LOGIC ================= */
 
-    const random =
-      matching[Math.floor(Math.random() * matching.length)];
-
-    setCurrentScenario(random);
-    setMode("story");
-
-    setAnimate(false);
-    requestAnimationFrame(() => setAnimate(true));
-  };
-
-  const toggleEnergy = () => {
-    const newEnergy = energy === "active" ? "low" : "active";
-    setEnergy(newEnergy);
-
-    const matching = scenarios.filter(
-      (s) => s.energy === newEnergy || s.energy === "mixed"
-    );
-
-    if (matching.length) {
-      const random =
-        matching[Math.floor(Math.random() * matching.length)];
-      setCurrentScenario(random);
+  const shuffle = (array: Scenario[]) => {
+    const copy = [...array];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
     }
+    return copy;
   };
+
+  const generateOptions = () => {
+    const matching = scenarios.filter((s) => s.energy === energy);
+    setOptions(shuffle(matching).slice(0, 3));
+    setMode("select");
+  };
+
+  const selectScenario = (scenario: Scenario) => {
+    setCurrent(scenario);
+    setStoryStep(0);
+    setMode("story");
+  };
+
+  const favoriteScenarios = favorites
+    .map((id) => scenarios.find((s) => s.id === id))
+    .filter(Boolean) as Scenario[];
+
+  const storyBeats = current
+    ? [
+        {
+          label: t(current.starterLabel),
+          line: t(current.starterLine),
+          color: "from-emerald-50 to-green-50",
+          accent: "bg-emerald-500",
+          number: 1,
+        },
+        {
+          label: t(current.twistLabel),
+          line: t(current.twistLine),
+          color: "from-amber-50 to-yellow-50",
+          accent: "bg-amber-500",
+          number: 2,
+        },
+        {
+          label: t(current.endingLabel),
+          line: t(current.endingLine),
+          color: "from-blue-50 to-indigo-50",
+          accent: "bg-blue-500",
+          number: 3,
+        },
+      ]
+    : [];
+
+  /* ================= UI ================= */
+
+  if (!hydrated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#e8f4f8] to-[#b8dde8]" />
+    );
+  }
 
   return (
     <div
-      className={`
-        min-h-screen px-5 pt-20 pb-20 flex items-center justify-center
-        transition-colors duration-700
-        ${
-          energy === "active"
-            ? "bg-gradient-to-br from-[#e8f4f8] to-[#b8dde8]"
-            : "bg-gradient-to-br from-[#fce8e8] to-[#f8d4d4]"
-        }
-      `}
+      className={`min-h-screen px-5 py-6 flex flex-col items-center ${
+        energy === "active"
+          ? "bg-gradient-to-br from-[#e8f4f8] to-[#b8dde8]"
+          : "bg-gradient-to-br from-[#fce8e8] to-[#f8d4d4]"
+      }`}
     >
-      <div className="w-full max-w-[440px] relative">
+      {/* ================= HEADER ================= */}
+      <div className="w-full max-w-[440px] flex justify-end items-center gap-3 mb-6">
+        <button
+          onClick={() => setMode("favorites")}
+          className="flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-white/50 text-sm font-medium text-slate-700"
+        >
+          ⭐ {lang === "en" ? "Favorites" : "Favoriler"}
+          {favoriteScenarios.length > 0 && (
+            <span className="bg-slate-800 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+              {favoriteScenarios.length}
+            </span>
+          )}
+        </button>
 
-        {/* SETUP MODE */}
+        {mode !== "story" && (
+          <div className="flex bg-white/80 backdrop-blur rounded-full shadow-sm border border-white/50 overflow-hidden">
+            <button
+              onClick={() => setLang("en")}
+              className={`px-4 py-2 text-sm font-medium transition-colors ${
+                lang === "en"
+                  ? "bg-slate-800 text-white"
+                  : "text-slate-600"
+              }`}
+            >
+              EN
+            </button>
+            <button
+              onClick={() => setLang("tr")}
+              className={`px-4 py-2 text-sm font-medium transition-colors ${
+                lang === "tr"
+                  ? "bg-slate-800 text-white"
+                  : "text-slate-600"
+              }`}
+            >
+              TR
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="w-full max-w-[440px]">
+        {/* ================= SETUP ================= */}
         {mode === "setup" && (
-          <div className="bg-white rounded-[32px] px-8 py-10 shadow-[0_20px_60px_rgba(0,0,0,0.08)] relative">
-
-            {/* Language Toggle */}
-            <div className="absolute top-4 right-4 text-sm flex gap-2">
-              <button
-                onClick={() => setLanguage("en")}
-                className={`px-2 py-1 rounded ${
-                  language === "en"
-                    ? "bg-slate-800 text-white"
-                    : "text-slate-600"
-                }`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => setLanguage("tr")}
-                className={`px-2 py-1 rounded ${
-                  language === "tr"
-                    ? "bg-slate-800 text-white"
-                    : "text-slate-600"
-                }`}
-              >
-                TR
-              </button>
+          <div className="bg-white rounded-[32px] px-8 py-10 shadow-xl animate-fade-in">
+            <div className="text-center mb-8">
+              <div className="text-6xl mb-4">
+                {energy === "active" ? "🌟🚀✨" : "🌙🧸💤"}
+              </div>
+              <h1 className="text-2xl font-semibold text-slate-800">
+                {lang === "en"
+                  ? "How's your energy tonight?"
+                  : "Bu akşam enerjin nasıl?"}
+              </h1>
+              <p className="text-sm text-slate-500 mt-2">
+                {lang === "en"
+                  ? "Pick a mood and we'll find the perfect adventure"
+                  : "Bir mod seç, sana en iyi macerayı bulalım"}
+              </p>
             </div>
 
-            <h1 className="text-3xl font-semibold text-center mb-6">
-              {t[language].energyTitle}
-            </h1>
-
-            <p className="text-center text-slate-600 mb-8 text-base leading-relaxed">
-              {t[language].energyDesc}
-            </p>
-
-            <div className="flex gap-4 mb-10">
-              <EnergyButton
-                label={t[language].active}
-                selected={energy === "active"}
+            <div className="flex gap-4 mb-8">
+              <button
                 onClick={() => setEnergy("active")}
-                activeColor="from-[#4a92c8] to-[#2c5f7f]"
-              />
-              <EnergyButton
-                label={t[language].cozy}
-                selected={energy === "low"}
+                className={`flex-1 py-4 rounded-2xl text-base font-medium transition-all duration-200 ${
+                  energy === "active"
+                    ? "bg-gradient-to-br from-[#4a92c8] to-[#2c5f7f] text-white shadow-lg scale-[1.02]"
+                    : "bg-slate-50 text-slate-500 hover:bg-slate-100"
+                }`}
+              >
+                🌟 {lang === "en" ? "Active" : "Hareketli"}
+              </button>
+
+              <button
                 onClick={() => setEnergy("low")}
-                activeColor="from-[#e08b8b] to-[#c75d5d]"
-              />
+                className={`flex-1 py-4 rounded-2xl text-base font-medium transition-all duration-200 ${
+                  energy === "low"
+                    ? "bg-gradient-to-br from-[#e08b8b] to-[#c75d5d] text-white shadow-lg scale-[1.02]"
+                    : "bg-slate-50 text-slate-500 hover:bg-slate-100"
+                }`}
+              >
+                🌙 {lang === "en" ? "Cozy" : "Sakin"}
+              </button>
             </div>
 
             <button
-              onClick={generateScenario}
-              className={`
-                w-full py-4 px-6 rounded-2xl
-                text-white font-semibold text-lg
-                ${
-                  energy === "active"
-                    ? "bg-gradient-to-r from-[#4a92c8] to-[#2c5f7f]"
-                    : "bg-gradient-to-r from-[#e08b8b] to-[#c75d5d]"
-                }
-              `}
+              onClick={generateOptions}
+              className="w-full py-4 px-6 rounded-2xl text-white font-semibold text-lg bg-slate-800 transition-all duration-200 active:scale-[0.98] hover:bg-slate-700"
             >
-              {t[language].create}
+              {lang === "en"
+                ? "Create an adventure ✨"
+                : "Bir macera oluştur ✨"}
             </button>
           </div>
         )}
 
-        {/* STORY MODE */}
-        {mode === "story" && currentScenario && (
-          <div className="space-y-4">
-            <div className="bg-white rounded-[32px] px-8 py-10 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+        {/* ================= SELECT ================= */}
+        {mode === "select" && (
+          <div className="space-y-4 animate-fade-in">
+            <p className="text-center text-sm font-medium text-slate-600 mb-2">
+              {lang === "en"
+                ? "Pick an adventure to play tonight"
+                : "Bu gece oynayacağın bir macera seç"}
+            </p>
 
-              {/* Back Button */}
-              <button
-                onClick={() => setMode("setup")}
-                className="text-sm text-slate-500 mb-4"
-              >
-                ← {t[language].back}
-              </button>
+            {options.map((s) => (
+              <SelectionCard
+                key={s.id}
+                scenario={s}
+                lang={lang}
+                isFavorite={isFavorite(s.id)}
+                onToggle={() => toggleFavorite(s.id)}
+                onClick={() => selectScenario(s)}
+              />
+            ))}
 
-              <h1
-                className="text-4xl font-semibold text-center mb-6"
-                style={{
-                  color:
-                    energy === "active" ? "#2c5f7f" : "#8b4a4a",
-                }}
-              >
-                {currentScenario.theme[language]}
-              </h1>
+            <button
+              onClick={generateOptions}
+              className="w-full mt-4 py-4 rounded-2xl bg-slate-800 text-white font-semibold transition-all duration-200 active:scale-[0.98] hover:bg-slate-700"
+            >
+              {lang === "en"
+                ? "Shuffle new adventures 🔀"
+                : "Yeni maceralar karıştır 🔀"}
+            </button>
 
-              <div
-                className={`
-                  rounded-[20px] px-6 py-5 mb-6 border
-                  ${
-                    energy === "active"
-                      ? "bg-[#f0f9ff] border-[#8bb8e8]/30"
-                      : "bg-[#fff0f0] border-[#e8b8b8]/30"
-                  }
-                `}
-              >
-                <p className="text-[16px] text-slate-700 mb-2">
-                  <span className="font-semibold">
-                    {t[language].you}
-                  </span>{" "}
-                  {currentScenario.toddlerRole[language]}
-                </p>
-                <p className="text-[16px] text-slate-700">
-                  <span className="font-semibold">
-                    {t[language].iAm}
-                  </span>{" "}
-                  {currentScenario.parentRole[language]}
-                </p>
-              </div>
-
-              <p className="text-[18px] leading-relaxed text-center mb-8 text-slate-700 italic">
-                {currentScenario.mission[language]}
-              </p>
-
-              <div className="space-y-3 mb-6">
-                <StoryBeat
-                  label={currentScenario.starterLabel[language]}
-                  content={currentScenario.starterLine[language]}
-                />
-                <StoryBeat
-                  label={currentScenario.twistLabel[language]}
-                  content={currentScenario.twistLine[language]}
-                />
-                <StoryBeat
-                  label={currentScenario.endingLabel[language]}
-                  content={currentScenario.endingLine[language]}
-                />
-              </div>
-
-              <button
-                onClick={generateScenario}
-                className={`
-                  w-full py-4 px-6 rounded-2xl
-                  text-white font-semibold text-base
-                  ${
-                    energy === "active"
-                      ? "bg-gradient-to-r from-[#4a92c8] to-[#2c5f7f]"
-                      : "bg-gradient-to-r from-[#e08b8b] to-[#c75d5d]"
-                  }
-                `}
-              >
-                {t[language].another}
-              </button>
-
-              <button
-                onClick={toggleEnergy}
-                className="w-full mt-4 py-3 px-4 rounded-xl bg-white/70 text-sm text-slate-600"
-              >
-                {t[language].switchEnergy}
-              </button>
-            </div>
+            <button
+              onClick={() => setMode("setup")}
+              className="w-full mt-2 py-2 text-sm text-slate-500 hover:text-slate-700 transition-colors"
+            >
+              ← {lang === "en" ? "Change energy" : "Enerjiyi değiştir"}
+            </button>
           </div>
         )}
-      </div>
-    </div>
-  );
-}
 
-/* COMPONENTS */
+        {/* ================= FAVORITES ================= */}
+        {mode === "favorites" && (
+          <div className="space-y-4 animate-fade-in">
+            <p className="text-center text-sm font-medium text-slate-600 mb-2">
+              ⭐ {lang === "en" ? "Your Favorites" : "Favorilerin"}
+            </p>
 
-function EnergyButton({
-  label,
-  selected,
-  onClick,
-  activeColor,
-}: {
-  label: string;
-  selected: boolean;
-  onClick: () => void;
-  activeColor: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`
-        flex-1 py-4 px-4 rounded-2xl
-        ${
-          selected
-            ? `bg-gradient-to-br ${activeColor} text-white`
-            : "bg-white shadow text-slate-700"
-        }
-      `}
-    >
-      {label}
-    </button>
-  );
-}
+            {favoriteScenarios.length === 0 ? (
+              <div className="bg-white rounded-[32px] px-8 py-12 shadow-xl text-center">
+                <div className="text-5xl mb-4">💫</div>
+                <p className="text-slate-600 font-medium">
+                  {lang === "en"
+                    ? "No favorites yet"
+                    : "Henüz favori yok"}
+                </p>
+                <p className="text-sm text-slate-400 mt-2">
+                  {lang === "en"
+                    ? "Tap the heart on any adventure to save it here"
+                    : "Bir maceraya kalp simgesine dokunarak buraya kaydet"}
+                </p>
+              </div>
+            ) : (
+              favoriteScenarios.map((s) => (
+                <SelectionCard
+                  key={s.id}
+                  scenario={s}
+                  lang={lang}
+                  isFavorite={true}
+                  onToggle={() => toggleFavorite(s.id)}
+                  onClick={() => selectScenario(s)}
+                />
+              ))
+            )}
 
-function StoryBeat({
-  label,
-  content,
-}: {
-  label: string;
-  content: string;
-}) {
-  return (
-    <div className="bg-white rounded-2xl px-5 py-4 shadow-sm border border-slate-100">
-      <div className="font-semibold mb-1 text-slate-700">
-        {label}
-      </div>
-      <div className="text-sm text-slate-600 leading-relaxed">
-        {content}
+            <button
+              onClick={() => setMode("setup")}
+              className="w-full mt-4 py-2 text-sm text-slate-500 hover:text-slate-700 transition-colors"
+            >
+              ← {lang === "en" ? "Back" : "Geri"}
+            </button>
+          </div>
+        )}
+
+        {/* ================= STORY ================= */}
+        {mode === "story" && current && (
+          <div className="bg-white rounded-[32px] px-8 py-10 shadow-xl animate-fade-in">
+            {/* Back button */}
+            <button
+              onClick={() => setMode("select")}
+              className="mb-4 text-sm text-slate-500 hover:text-slate-700 transition-colors"
+            >
+              ← {lang === "en" ? "Back to adventures" : "Maceralara dön"}
+            </button>
+
+            {/* Story Header */}
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-4xl">{current.icon}</span>
+              <div className="flex-1">
+                <h1 className="text-2xl font-semibold text-slate-800">
+                  {t(current.theme)}
+                </h1>
+              </div>
+              <button
+                onClick={() => toggleFavorite(current.id)}
+                aria-label={isFavorite(current.id) ? "Remove from favorites" : "Add to favorites"}
+                className="text-2xl transition-transform duration-200 active:scale-125"
+              >
+                {isFavorite(current.id) ? "❤️" : "🤍"}
+              </button>
+            </div>
+
+            {/* Roles */}
+            <div className={`rounded-2xl p-4 mb-6 bg-gradient-to-br ${current.cardColor}`}>
+              <p className="mb-1 text-sm text-slate-700">
+                <strong>
+                  {lang === "en" ? "🧒 You're:" : "🧒 Sen:"}
+                </strong>{" "}
+                {t(current.toddlerRole)}
+              </p>
+              <p className="text-sm text-slate-700">
+                <strong>
+                  {lang === "en" ? "🧑 I'm:" : "🧑 Ben:"}
+                </strong>{" "}
+                {t(current.parentRole)}
+              </p>
+            </div>
+
+            {/* Mission */}
+            <p className="italic text-slate-600 mb-6 text-center">
+              &ldquo;{t(current.mission)}&rdquo;
+            </p>
+
+            {/* Story Beats — progressive reveal */}
+            <div className="space-y-3">
+              {storyBeats.map((beat, index) => {
+                const isVisible = index <= storyStep;
+                const isCurrent = index === storyStep;
+
+                if (!isVisible) return null;
+
+                return (
+                  <div
+                    key={index}
+                    className={`bg-gradient-to-br ${beat.color} rounded-xl p-4 transition-all duration-300 ${
+                      isCurrent ? "ring-2 ring-slate-300 shadow-md" : "opacity-75"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span
+                        className={`${beat.accent} text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center`}
+                      >
+                        {beat.number}
+                      </span>
+                      <span className="font-semibold text-slate-800 text-sm">
+                        {beat.label}
+                      </span>
+                    </div>
+                    <div className="text-sm text-slate-600 pl-8">
+                      {beat.line}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Progress dots */}
+            <div className="flex justify-center gap-2 mt-6 mb-4">
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    i <= storyStep ? "bg-slate-800 scale-110" : "bg-slate-300"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Action Buttons */}
+            {storyStep < 2 ? (
+              <button
+                onClick={() => setStoryStep((prev) => prev + 1)}
+                className="w-full py-4 rounded-2xl bg-slate-800 text-white font-semibold transition-all duration-200 active:scale-[0.98] hover:bg-slate-700"
+              >
+                {storyStep === 0
+                  ? lang === "en"
+                    ? "What happens next? 👀"
+                    : "Sonra ne oluyor? 👀"
+                  : lang === "en"
+                    ? "How does it end? ✨"
+                    : "Nasıl bitiyor? ✨"}
+              </button>
+            ) : (
+              <div className="space-y-3">
+                <button
+                  onClick={() => setStoryStep(0)}
+                  className="w-full py-4 rounded-2xl bg-slate-800 text-white font-semibold transition-all duration-200 active:scale-[0.98] hover:bg-slate-700"
+                >
+                  {lang === "en"
+                    ? "Play again 🔁"
+                    : "Tekrar oyna 🔁"}
+                </button>
+                <button
+                  onClick={() => {
+                    generateOptions();
+                  }}
+                  className="w-full py-4 rounded-2xl bg-white text-slate-800 font-semibold border-2 border-slate-200 transition-all duration-200 active:scale-[0.98] hover:bg-slate-50"
+                >
+                  {lang === "en"
+                    ? "New adventures 🔀"
+                    : "Yeni maceralar 🔀"}
+                </button>
+                <button
+                  onClick={() => setMode("setup")}
+                  className="w-full py-2 text-sm text-slate-500 hover:text-slate-700 transition-colors"
+                >
+                  ← {lang === "en" ? "Change energy" : "Enerjiyi değiştir"}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
