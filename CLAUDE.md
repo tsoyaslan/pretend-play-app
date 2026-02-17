@@ -23,7 +23,7 @@ Interactive bedtime adventure app for parents and toddlers. Parents pick an ener
 - 3-step story progression with progressive reveal
 - Parent & child role assignments
 - Favorites system (localStorage)
-- Full EN/TR bilingual support
+- Full EN/TR bilingual support (default: Turkish)
 - Responsive mobile-first design
 
 ## Scenarios
@@ -31,6 +31,7 @@ Interactive bedtime adventure app for parents and toddlers. Parents pick an ener
 - 8 Low energy scenarios (Library, Vet Clinic, Bakery, Cloud Painter, Forest Cottage, Moonlight Garden, Toy Repair, Starlight Train)
 
 ## Recent Changes
+- Changed default language to Turkish (TR)
 - UI/UX fixes: added back button in story mode, "Play again" button at story end, fade-in transitions between all modes, hidden language toggle during story playback, aria-labels on all favorite buttons
 - Removed dark mode CSS conflict in globals.css (was causing flash for dark-mode users)
 - Fixed favorites badge count bug — was using raw `favorites.length` (included stale IDs) instead of `favoriteScenarios.length` (only valid scenarios)

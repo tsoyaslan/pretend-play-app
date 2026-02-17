@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from "react";
 export type Lang = "en" | "tr";
 
 export function useLanguage() {
-  const [lang, setLangState] = useState<Lang>("en");
+  const [lang, setLangState] = useState<Lang>("tr");
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
