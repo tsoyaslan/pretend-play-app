@@ -5,6 +5,7 @@ export type LocalizedText = {
 
 export type Scenario = {
   id: string;
+  icon: string;
   theme: LocalizedText;
   toddlerRole: LocalizedText;
   parentRole: LocalizedText;
@@ -23,9 +24,10 @@ export const scenarios: Scenario[] = [
 
   {
     id: "airport-adventure",
+    icon: "✈️",
     theme: { en: "Airport Adventure", tr: "Havaalanı Macerası" },
     toddlerRole: { en: "flying the plane today", tr: "bugün uçağı uçuruyorsun" },
-    parentRole: { en: "your very important passenger!", tr:  "uçakta çok önemli bir yolcuyum!" },
+    parentRole: { en: "your very important passenger!", tr: "uçakta çok önemli bir yolcuyum!" },
     mission: { en: "Help me fly safely to a brand new country", tr: "Beni gideceğim ülkeye güvenle uçur" },
     starterLabel: { en: "Getting Ready", tr: "Hazırlık Zamanı" },
     starterLine: { en: "Check all the buttons and switches on the plane.", tr: "Uçaktaki tüm düğmeleri kontrol et." },
@@ -38,6 +40,7 @@ export const scenarios: Scenario[] = [
 
   {
     id: "space-station",
+    icon: "🚀",
     theme: { en: "Space Station", tr: "Uzay İstasyonu" },
     toddlerRole: { en: "the astronaut commander", tr: "astronot komutansın" },
     parentRole: { en: "your robot helper!", tr: "senin robot yardımcın!" },
@@ -53,6 +56,7 @@ export const scenarios: Scenario[] = [
 
   {
     id: "race-car",
+    icon: "🏎️",
     theme: { en: "Race Car Championship", tr: "Yarış Arabası Şampiyonası" },
     toddlerRole: { en: "the race car driver", tr: "yarış pilotu" },
     parentRole: { en: "your pit crew chief!", tr: "tamir ekibi şefi!" },
@@ -66,10 +70,91 @@ export const scenarios: Scenario[] = [
     energy: "active",
   },
 
+  {
+    id: "jungle-expedition",
+    icon: "🌴",
+    theme: { en: "Jungle Expedition", tr: "Orman Keşfi" },
+    toddlerRole: { en: "the brave explorer", tr: "Cesur kaşif" },
+    parentRole: { en: "your map reader!", tr: "Harita okuyucunum!" },
+    mission: { en: "Find the hidden golden temple deep in the jungle", tr: "Ormanın derinliklerindeki altın tapınağı bul" },
+    starterLabel: { en: "Into the Wild", tr: "Vahşi Doğaya" },
+    starterLine: { en: "Grab your backpack", tr: "Sırt çantanı al." },
+    twistLabel: { en: "River Crossing", tr: "Nehir Geçişi" },
+    twistLine: { en: "The river is wide. How do we cross?", tr: "Nehir çok geniş. Nasıl geçelim?" },
+    endingLabel: { en: "Temple Found", tr: "Tapınak Bulundu" },
+    endingLine: { en: "We discovered the golden temple!", tr: "Altın tapınağı bulduk!" },
+    energy: "active",
+  },
+
+  {
+    id: "pirate-ship",
+    icon: "🏴‍☠️",
+    theme: { en: "Pirate Ship Adventure", tr: "Korsan Gemisi Macerası" },
+    toddlerRole: { en: "the pirate captain", tr: "korsan kaptan" },
+    parentRole: { en: "your first mate!", tr: "birinci yardımcın!" },
+    mission: { en: "Search for treasure across the stormy sea", tr: "Fırtınalı denizde hazine ara" },
+    starterLabel: { en: "Raise the Sails", tr: "Yelkenleri Aç" },
+    starterLine: { en: "Climb the mast and raise the sails!", tr: "Direğe tırman ve yelkenleri aç!" },
+    twistLabel: { en: "Sea Monster", tr: "Deniz Canavarı" },
+    twistLine: { en: "A giant shadow moves under the water.", tr: "Suyun altında dev bir gölge var." },
+    endingLabel: { en: "Treasure Chest", tr: "Hazine Sandığı" },
+    endingLine: { en: "We found the treasure chest!", tr: "Hazine sandığını bulduk!" },
+    energy: "active",
+  },
+
+  {
+    id: "dinosaur-world",
+    icon: "🦖",
+    theme: { en: "Dinosaur World", tr: "Dinozor Dünyası" },
+    toddlerRole: { en: "the dinosaur ranger", tr: "Dinozor eğitmeni" },
+    parentRole: { en: "a scientist studying dinosaurs!", tr: "dinozorları inceleyen bilim insanı!" },
+    mission: { en: "Protect baby dinosaurs from danger", tr: "Yavru dinozorları koru" },
+    starterLabel: { en: "Tracking", tr: "İz Sürme" },
+    starterLine: { en: "Look at these giant footprints!", tr: "Dev ayak izlerine bak!" },
+    twistLabel: { en: "Volcano Warning", tr: "Volkan Uyarısı" },
+    twistLine: { en: "The ground starts shaking!", tr: "Yer sallanmaya başlıyor!" },
+    endingLabel: { en: "Safe Escape", tr: "Güvenli Kaçış" },
+    endingLine: { en: "We helped the baby dinosaurs escape.", tr: "Yavru dinozorları kurtardık." },
+    energy: "active",
+  },
+
+  {
+    id: "superhero-city",
+    icon: "🦸",
+    theme: { en: "Superhero City", tr: "Süper Kahraman Şehri" },
+    toddlerRole: { en: "the city’s superhero", tr: "şehrin süper kahramanı" },
+    parentRole: { en: "your mission assistant!", tr: "senin yardımcın!" },
+    mission: { en: "Save the city from a mysterious villain", tr: "Şehri kötü adamdan kurtar" },
+    starterLabel: { en: "Call for Help", tr: "Yardım Çağrısı" },
+    starterLine: { en: "The alarm rings in headquarters.", tr: "Merkezde alarm çalıyor." },
+    twistLabel: { en: "Rooftop Chase", tr: "Çatı Kovalamacası" },
+    twistLine: { en: "The villain runs across rooftops!", tr: "Kötü adam çatılardan kaçıyor!" },
+    endingLabel: { en: "City Saved", tr: "Şehir Kurtarıldı" },
+    endingLine: { en: "The city cheers for you!", tr: "Şehir seni alkışlıyor!" },
+    energy: "active",
+  },
+
+  {
+    id: "mountain-rescue",
+    icon: "🏔️",
+    theme: { en: "Mountain Rescue", tr: "Dağ Kurtarma" },
+    toddlerRole: { en: "the rescue leader", tr: "kurtarma lideri" },
+    parentRole: { en: "a lost hiker!", tr: "kaybolmuş bir yürüyüşçü!" },
+    mission: { en: "Find and rescue the lost hiker", tr: "Kaybolan yürüyüşçüyü bul ve kurtar" },
+    starterLabel: { en: "Climbing Up", tr: "Tırmanış" },
+    starterLine: { en: "We begin climbing the snowy mountain.", tr: "Karlı dağa tırmanmaya başlıyoruz." },
+    twistLabel: { en: "Snowstorm", tr: "Kar Fırtınası" },
+    twistLine: { en: "The wind gets stronger!", tr: "Rüzgar güçleniyor!" },
+    endingLabel: { en: "Rescue Complete", tr: "Kurtarma Tamamlandı" },
+    endingLine: { en: "We found the hiker and brought them home.", tr: "Yürüyüşçüyü bulduk ve eve getirdik." },
+    energy: "active",
+  },
+
   // ================= LOW =================
 
   {
     id: "bedtime-library",
+    icon: "📚",
     theme: { en: "Bedtime Story Library", tr: "Uyku Masalı Kütüphanesi" },
     toddlerRole: { en: "the wise librarian", tr: "Kütüphaneci" },
     parentRole: { en: "looking for the perfect book!", tr: "mükemmel kitabı arayan kişi!" },
@@ -85,6 +170,7 @@ export const scenarios: Scenario[] = [
 
   {
     id: "veterinary-clinic",
+    icon: "🐻",
     theme: { en: "Veterinary Clinic", tr: "Veteriner Kliniği" },
     toddlerRole: { en: "the gentle animal doctor", tr: "Hayvan doktoru" },
     parentRole: { en: "bringing my sick teddy bear!", tr: "hasta oyuncak ayıyı getiren kişi!" },
@@ -100,6 +186,7 @@ export const scenarios: Scenario[] = [
 
   {
     id: "cozy-bakery",
+    icon: "🧁",
     theme: { en: "Cozy Bakery", tr: "Sıcacık Fırın" },
     toddlerRole: { en: "the baker", tr: "Fırıncı" },
     parentRole: { en: "your hungry customer!", tr: "Aç müşterin!" },
@@ -114,82 +201,8 @@ export const scenarios: Scenario[] = [
   },
 
   {
-    id: "jungle-expedition",
-    theme: { en: "Jungle Expedition", tr: "Orman Keşfi" },
-    toddlerRole: { en: "the brave explorer", tr: "Cesur kaşif" },
-    parentRole: { en: "your map reader!", tr: "Harita okuyucunum!" },
-    mission: { en: "Find the hidden golden temple deep in the jungle", tr: "Ormanın derinliklerindeki altın tapınağı bul" },
-    starterLabel: { en: "Into the Wild", tr: "Vahşi Doğaya" },
-    starterLine: { en: "Grab your backpack", tr: "Sırt çantanı al." },
-    twistLabel: { en: "River Crossing", tr: "Nehir Geçişi" },
-    twistLine: { en: "The river is wide. How do we cross?", tr: "Nehir çok geniş. Nasıl geçelim?" },
-    endingLabel: { en: "Temple Found", tr: "Tapınak Bulundu" },
-    endingLine: { en: "We discovered the golden temple!", tr: "Altın tapınağı bulduk!" },
-    energy: "active",
-  },
-  
-  {
-    id: "pirate-ship",
-    theme: { en: "Pirate Ship Adventure", tr: "Korsan Gemisi Macerası" },
-    toddlerRole: { en: "the pirate captain", tr: "korsan kaptan" },
-    parentRole: { en: "your first mate!", tr: "birinci yardımcın!" },
-    mission: { en: "Search for treasure across the stormy sea", tr: "Fırtınalı denizde hazine ara" },
-    starterLabel: { en: "Raise the Sails", tr: "Yelkenleri Aç" },
-    starterLine: { en: "Climb the mast and raise the sails!", tr: "Direğe tırman ve yelkenleri aç!" },
-    twistLabel: { en: "Sea Monster", tr: "Deniz Canavarı" },
-    twistLine: { en: "A giant shadow moves under the water.", tr: "Suyun altında dev bir gölge var." },
-    endingLabel: { en: "Treasure Chest", tr: "Hazine Sandığı" },
-    endingLine: { en: "We found the treasure chest!", tr: "Hazine sandığını bulduk!" },
-    energy: "active",
-  },
-  
-  {
-    id: "dinosaur-world",
-    theme: { en: "Dinosaur World", tr: "Dinozor Dünyası" },
-    toddlerRole: { en: "the dinosaur ranger", tr: "Dinozor eğitmeni " },
-    parentRole: { en: "a scientist studying dinosaurs!", tr: "dinozorları inceleyen bilim insanı!" },
-    mission: { en: "Protect baby dinosaurs from danger", tr: "Yavru dinozorları koru" },
-    starterLabel: { en: "Tracking", tr: "İz Sürme" },
-    starterLine: { en: "Look at these giant footprints!", tr: "Dev ayak izlerine bak!" },
-    twistLabel: { en: "Volcano Warning", tr: "Volkan Uyarısı" },
-    twistLine: { en: "The ground starts shaking!", tr: "Yer sallanmaya başlıyor!" },
-    endingLabel: { en: "Safe Escape", tr: "Güvenli Kaçış" },
-    endingLine: { en: "We helped the baby dinosaurs escape.", tr: "Yavru dinozorları kurtardık." },
-    energy: "active",
-  },
-  
-  {
-    id: "superhero-city",
-    theme: { en: "Superhero City", tr: "Süper Kahraman Şehri" },
-    toddlerRole: { en: "the city’s superhero", tr: "şehrin süper kahramanı" },
-    parentRole: { en: "your mission assistant!", tr: "senin yardımcın!" },
-    mission: { en: "Save the city from a mysterious villain", tr: "Şehri kötü adamdan kurtar" },
-    starterLabel: { en: "Call for Help", tr: "Yardım Çağrısı" },
-    starterLine: { en: "The alarm rings in headquarters.", tr: "Merkezde alarm çalıyor." },
-    twistLabel: { en: "Rooftop Chase", tr: "Çatı Kovalamacası" },
-    twistLine: { en: "The villain runs across rooftops!", tr: "Kötü adam çatılardan kaçıyor!" },
-    endingLabel: { en: "City Saved", tr: "Şehir Kurtarıldı" },
-    endingLine: { en: "The city cheers for you!", tr: "Şehir seni alkışlıyor!" },
-    energy: "active",
-  },
-  
-  {
-    id: "mountain-rescue",
-    theme: { en: "Mountain Rescue", tr: "Dağ Kurtarma" },
-    toddlerRole: { en: "the rescue leader", tr: "kurtarma lideri" },
-    parentRole: { en: "a lost hiker!", tr: "kaybolmuş bir yürüyüşçü!" },
-    mission: { en: "Find and rescue the lost hiker", tr: "Kaybolan yürüyüşçüyü bul ve kurtar" },
-    starterLabel: { en: "Climbing Up", tr: "Tırmanış" },
-    starterLine: { en: "We begin climbing the snowy mountain.", tr: "Karlı dağa tırmanmaya başlıyoruz." },
-    twistLabel: { en: "Snowstorm", tr: "Kar Fırtınası" },
-    twistLine: { en: "The wind gets stronger!", tr: "Rüzgar güçleniyor!" },
-    endingLabel: { en: "Rescue Complete", tr: "Kurtarma Tamamlandı" },
-    endingLine: { en: "We found the hiker and brought them home.", tr: "Yürüyüşçüyü bulduk ve eve getirdik." },
-    energy: "active",
-  },
-  
-  {
     id: "cloud-painter",
+    icon: "🎨",
     theme: { en: "Cloud Painter", tr: "Bulut Ressamı" },
     toddlerRole: { en: "the sky painter", tr: "gökyüzü ressamı" },
     parentRole: { en: "your assistant holding the paintbrush!", tr: "fırçayı tutan yardımcın!" },
@@ -202,9 +215,10 @@ export const scenarios: Scenario[] = [
     endingLine: { en: "The sky glows softly as night begins.", tr: "Gece başlarken gökyüzü yumuşakça parlıyor." },
     energy: "low",
   },
-  
+
   {
     id: "magic-forest-cottage",
+    icon: "🏡",
     theme: { en: "Magic Forest Cottage", tr: "Sihirli Orman Kulübesi" },
     toddlerRole: { en: "the forest guardian", tr: "orman koruyucusu" },
     parentRole: { en: "visiting your cozy cottage!", tr: "kulübene gelen misafir!" },
@@ -217,9 +231,10 @@ export const scenarios: Scenario[] = [
     endingLine: { en: "The forest becomes calm and sleepy.", tr: "Orman sakinleşiyor ve uykuya hazırlanıyor." },
     energy: "low",
   },
-  
+
   {
     id: "moonlight-garden",
+    icon: "🌙",
     theme: { en: "Moonlight Garden", tr: "Ay Işığı Bahçesi" },
     toddlerRole: { en: "the night gardener", tr: "gece bahçıvanı" },
     parentRole: { en: "learning about night flowers!", tr: "gece çiçeklerini öğrenen kişi!" },
@@ -232,9 +247,10 @@ export const scenarios: Scenario[] = [
     endingLine: { en: "The garden rests under the silver moon.", tr: "Bahçe gümüş ay ışığında dinleniyor." },
     energy: "low",
   },
-  
+
   {
     id: "toy-repair-shop",
+    icon: "🧸",
     theme: { en: "Toy Repair Shop", tr: "Oyuncak Tamir Dükkanı" },
     toddlerRole: { en: "the gentle toy fixer", tr: "oyuncak tamircisi" },
     parentRole: { en: "bringing in my tired teddy!", tr: "yorgun ayıcığımı getiren kişi!" },
@@ -247,9 +263,10 @@ export const scenarios: Scenario[] = [
     endingLine: { en: "The toys smile warmly.", tr: "Oyuncaklar sıcakça gülümsüyor." },
     energy: "low",
   },
-  
+
   {
     id: "starlight-train",
+    icon: "🚂",
     theme: { en: "Starlight Train", tr: "Yıldızlı Tren" },
     toddlerRole: { en: "the train conductor", tr: "tren kondüktörü" },
     parentRole: { en: "your sleepy passenger!", tr: "uykulu yolcun!" },
@@ -262,6 +279,4 @@ export const scenarios: Scenario[] = [
     endingLine: { en: "We arrive at the land of dreams.", tr: "Rüyalar diyarına varıyoruz." },
     energy: "low",
   },
-  
-
 ];

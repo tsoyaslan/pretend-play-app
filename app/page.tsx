@@ -293,7 +293,7 @@ export default function Home() {
             </div>
 
             {/* Roles */}
-            <div className={`rounded-2xl p-4 mb-6 bg-gradient-to-br ${current.cardColor}`}>
+            <div className="rounded-2xl p-4 mb-6 bg-gradient-to-br from-slate-50 to-slate-100">
               <p className="mb-1 text-sm text-slate-700">
                 <strong>
                   {lang === "en" ? "You're:" : "Sen:"}

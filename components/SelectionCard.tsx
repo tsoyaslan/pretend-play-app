@@ -19,8 +19,8 @@ export default function SelectionCard({
   return (
     <div
       onClick={onClick}
-      className={`bg-gradient-to-br ${scenario.cardColor} p-5 rounded-2xl shadow-md cursor-pointer
-        transition-all duration-200 active:scale-[0.98] hover:shadow-lg`}
+      className="bg-gradient-to-br from-slate-50 to-slate-100 p-5 rounded-2xl shadow-md cursor-pointer
+        transition-all duration-200 active:scale-[0.98] hover:shadow-lg"
     >
       <div className="flex items-center gap-3">
         <span className="text-4xl leading-none">{scenario.icon}</span>
