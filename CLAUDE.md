@@ -31,6 +31,7 @@ Interactive bedtime adventure app for parents and toddlers. Parents pick an ener
 - 8 Low energy scenarios (Library, Vet Clinic, Bakery, Cloud Painter, Forest Cottage, Moonlight Garden, Toy Repair, Starlight Train)
 
 ## Recent Changes
+- Removed `cardColor` from Scenario type — selection cards and role box now use neutral slate gradient
 - Removed gendered icons (🧒/🧑) from role labels in story view — gender-neutral "You're:" / "I'm:" instead
 - Updated Turkish translations across all scenarios
 - Changed default language to Turkish (TR)
