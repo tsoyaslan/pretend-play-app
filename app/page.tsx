@@ -296,13 +296,13 @@ export default function Home() {
             <div className={`rounded-2xl p-4 mb-6 bg-gradient-to-br ${current.cardColor}`}>
               <p className="mb-1 text-sm text-slate-700">
                 <strong>
-                  {lang === "en" ? "🧒 You're:" : "🧒 Sen:"}
+                  {lang === "en" ? "You're:" : "Sen:"}
                 </strong>{" "}
                 {t(current.toddlerRole)}
               </p>
               <p className="text-sm text-slate-700">
                 <strong>
-                  {lang === "en" ? "🧑 I'm:" : "🧑 Ben:"}
+                  {lang === "en" ? "I'm:" : "Ben:"}
                 </strong>{" "}
                 {t(current.parentRole)}
               </p>
