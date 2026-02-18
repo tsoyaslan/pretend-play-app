@@ -203,8 +203,8 @@ export default function Home() {
           <div className="space-y-4 animate-fade-in">
             <p className="text-center text-sm font-medium text-slate-600 mb-2">
               {lang === "en"
-                ? "Pick an adventure to play tonight"
-                : "Bu gece oynayacağın bir macera seç"}
+                ? "Pick an adventure to play"
+                : "Oynayacağın bir macera seç"}
             </p>
 
             {options.map((s) => (
