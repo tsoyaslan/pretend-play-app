@@ -76,7 +76,22 @@ export default function Home() {
 
   if (!hydrated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#e8f4f8] to-[#b8dde8]" />
+      <div className="min-h-screen bg-gradient-to-br from-[#e8f4f8] to-[#b8dde8] px-5 py-6 flex flex-col items-center">
+        <div className="w-full max-w-[440px]">
+          <div className="bg-white rounded-[32px] px-8 py-10 shadow-xl animate-pulse">
+            <div className="text-center mb-8">
+              <div className="w-24 h-12 bg-slate-100 rounded-xl mx-auto mb-4" />
+              <div className="h-6 bg-slate-100 rounded-lg w-48 mx-auto mb-3" />
+              <div className="h-4 bg-slate-100 rounded-lg w-64 mx-auto" />
+            </div>
+            <div className="flex gap-4 mb-8">
+              <div className="flex-1 h-14 bg-slate-100 rounded-2xl" />
+              <div className="flex-1 h-14 bg-slate-100 rounded-2xl" />
+            </div>
+            <div className="h-14 bg-slate-100 rounded-2xl" />
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -90,17 +105,17 @@ export default function Home() {
     >
       {/* ================= HEADER ================= */}
       <div className="w-full max-w-[440px] flex justify-end items-center gap-3 mb-6">
-        <button
-          onClick={() => setMode("favorites")}
-          className="flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-white/50 text-sm font-medium text-slate-700"
-        >
-          ⭐ {lang === "en" ? "Favorites" : "Favoriler"}
-          {favoriteScenarios.length > 0 && (
+        {favoriteScenarios.length > 0 && (
+          <button
+            onClick={() => setMode("favorites")}
+            className="flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-white/50 text-sm font-medium text-slate-700"
+          >
+            ⭐ {lang === "en" ? "Favorites" : "Favoriler"}
             <span className="bg-slate-800 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
               {favoriteScenarios.length}
             </span>
-          )}
-        </button>
+          </button>
+        )}
 
         {mode !== "story" && (
           <div className="flex bg-white/80 backdrop-blur rounded-full shadow-sm border border-white/50 overflow-hidden">
@@ -138,8 +153,8 @@ export default function Home() {
               </div>
               <h1 className="text-2xl font-semibold text-slate-800">
                 {lang === "en"
-                  ? "How's your energy tonight?"
-                  : "Bu akşam enerjin nasıl?"}
+                  ? "How's your energy?"
+                  : "Enerjin nasıl?"}
               </h1>
               <p className="text-sm text-slate-500 mt-2">
                 {lang === "en"
@@ -389,8 +404,8 @@ export default function Home() {
                   className="w-full py-4 rounded-2xl bg-white text-slate-800 font-semibold border-2 border-slate-200 transition-all duration-200 active:scale-[0.98] hover:bg-slate-50"
                 >
                   {lang === "en"
-                    ? "New adventures 🔀"
-                    : "Yeni maceralar 🔀"}
+                    ? `New ${energy === "active" ? "Active" : "Cozy"} adventures 🔀`
+                    : `Yeni ${energy === "active" ? "Hareketli" : "Sakin"} maceralar 🔀`}
                 </button>
                 <button
                   onClick={() => setMode("setup")}

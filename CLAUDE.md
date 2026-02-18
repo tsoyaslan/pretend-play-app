@@ -1,7 +1,7 @@
 # Pretend Play App
 
 ## Overview
-Interactive bedtime adventure app for parents and toddlers. Parents pick an energy level (Active/Cozy), get 3 randomized scenario options, then play through a 3-step story (Starter > Twist > Ending) with assigned roles.
+Interactive role-play app for parents and kids. Parents pick an energy level (Active/Cozy), get 3 randomized scenario options, then play through a 3-step story (Starter > Twist > Ending) with assigned roles. Designed for anytime play — not limited to bedtime.
 
 ## Tech Stack
 - Next.js 16 (App Router) + React 19 + TypeScript
@@ -69,6 +69,10 @@ Interactive bedtime adventure app for parents and toddlers. Parents pick an ener
 
 ### Remaining Suggestions
 - Consider URL-based routing so browser back button works naturally between modes
+- `SelectionCard` uses a `div` with `onClick` instead of a `button` — no keyboard navigation, no `role="button"`. Accessibility gap
+- `globals.css` sets `font-family: Arial, Helvetica, sans-serif` on `body`, but Geist is loaded via layout. The CSS is misleading and fragile — should be removed or aligned
+- "New adventures" button at story end silently re-uses the current energy level without communicating it to the user — can be confusing
+- Favorites button is always visible in the header even on first launch with 0 favorites, leading new users straight to an empty state with no context
 
 ---
 
@@ -182,3 +186,57 @@ The app is well-suited for PWA conversion conceptually (offline bedtime app with
 - Test on real devices (iOS Safari, Android Chrome)
 - Configure HTTPS (required for service workers)
 - Deploy to Vercel (handles HTTPS automatically)
+
+---
+
+## 5. Premium Version Roadmap
+
+### Concept: Custom Scenario Generation
+Parents type a keyword (e.g. "firefighter", "underwater castle") and the app generates a full custom role-play scenario using an LLM, matching the existing `Scenario` type structure.
+
+### Why Premium
+- Requires an LLM API (Claude Haiku recommended) — costs ~$0.001 per generation
+- Needs a real backend to keep the API key server-side (not safe in a purely client-side app)
+- Auth + payment wall prevents API key abuse from public users
+
+### Cost Estimate
+- ~$0.001 per scenario generation (Claude Haiku)
+- 1,000 generations ≈ $1
+- Personal/family use: essentially free (pennies/month)
+- Public app with 10k active users: ~$10–20/month
+
+### Freemium Split
+| Feature | Free | Premium |
+|---|---|---|
+| 16 built-in scenarios | ✓ | ✓ |
+| Favorites | ✓ | ✓ |
+| Custom scenario generation | ✗ | ✓ |
+| Save custom scenarios | ✗ | ✓ |
+| Bilingual custom content (EN/TR) | ✗ | ✓ |
+
+### Required Architecture Additions
+- **Auth**: Clerk (easiest Next.js integration, free tier)
+- **Payments**: Stripe (subscriptions or one-time purchase)
+- **Database**: Supabase (free tier Postgres — store user accounts, subscription status, custom scenarios)
+- **API route**: `app/api/generate/route.ts` — calls Claude API server-side, gated behind auth + subscription check
+- **Schema**: Generated scenarios must match existing `Scenario` type; generate EN + TR in one LLM call
+
+### Custom Scenario UI (planned)
+- "Create your own" entry point on setup or select screen (visible but locked for free users)
+- Keyword text input + generate button
+- Loading state while AI generates
+- Preview card before playing, with option to regenerate
+- Save to account (not just localStorage)
+
+### Build Order (when ready)
+1. Polish and ship free version first
+2. Add auth (Clerk)
+3. Add payments (Stripe)
+4. Add `app/api/generate/route.ts` with rate limiting
+5. Build custom scenario UI behind paywall
+6. Add bilingual generation (EN + TR in single prompt)
+
+### Risks & Mitigations
+- **API abuse**: Rate limit per user in the API route (e.g. 5 generations/day on free trial, unlimited for paid)
+- **TR generation quality**: Test prompt carefully — generate both languages in one call to avoid translation drift
+- **Storing custom scenarios**: Cannot use localStorage for paid content — must persist in Supabase per user

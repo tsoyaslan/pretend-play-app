@@ -17,9 +17,9 @@ export default function SelectionCard({
   onClick,
 }: Props) {
   return (
-    <div
+    <button
       onClick={onClick}
-      className="bg-gradient-to-br from-slate-50 to-slate-100 p-5 rounded-2xl shadow-md cursor-pointer
+      className="w-full text-left bg-gradient-to-br from-slate-50 to-slate-100 p-5 rounded-2xl shadow-md cursor-pointer
         transition-all duration-200 active:scale-[0.98] hover:shadow-lg"
     >
       <div className="flex items-center gap-3">
@@ -34,17 +34,26 @@ export default function SelectionCard({
           </div>
         </div>
 
-        <button
+        <div
+          role="button"
+          tabIndex={0}
           onClick={(e) => {
             e.stopPropagation();
             onToggle();
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.stopPropagation();
+              onToggle();
+            }
+          }}
           aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-          className="text-2xl shrink-0 transition-transform duration-200 active:scale-125"
+          className="text-2xl shrink-0 transition-transform duration-200 active:scale-125 cursor-pointer"
         >
           {isFavorite ? "❤️" : "🤍"}
-        </button>
+        </div>
       </div>
-    </div>
+    </button>
   );
 }
